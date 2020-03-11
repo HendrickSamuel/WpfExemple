@@ -17,40 +17,38 @@ namespace WpfExemple
 {
     public partial class MainWindow : Window
     {
-        #region EVENEMENT DE CHANGEMENT DE PAGE
-        public static event Action<int> OnPageChange; // evenement pas encore vu en classe
+        IPageChange currentControl;
 
-        public static void triggerPageChange(int i)
-        {
-            OnPageChange?.Invoke(i);
-        }
-        #endregion
 
         public MainWindow()
         {
             InitializeComponent();
-            this.MonControle.Content = new Page1();
-            OnPageChange += MainWindow_OnPageChange; // ma mainwindow s'abonne à l'evenement et apelle cette methode quand il est declenché
-
+            LoadPage1();
         }
 
         private void MainWindow_OnPageChange(int obj)
         {
             switch (obj)
             {
-                case 1: LoadPage1(); break;
-                case 2: LoadPage2(); break;
+                case 1: LoadPage2(); break; // si on vient de la page 1 on va vers la page 2
+                case 2: LoadPage1(); break; // si on vient de la page 2 on va vers la page 1
             }
         }
 
         public void LoadPage2()
         {
-            this.MonControle.Content = new Page2();
+            currentControl = new Page2();
+            this.MonControle.Content = currentControl;
+
+            currentControl.PageChange += MainWindow_OnPageChange;
         }
 
         public void LoadPage1()
-        {
-            this.MonControle.Content = new Page1();
+        { 
+            currentControl = new Page1();
+            this.MonControle.Content = currentControl;
+
+            currentControl.PageChange += MainWindow_OnPageChange;
         }
     }
 }

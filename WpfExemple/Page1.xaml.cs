@@ -18,8 +18,10 @@ namespace WpfExemple
     /// <summary>
     /// Interaction logic for Page1.xaml
     /// </summary>
-    public partial class Page1 : UserControl
+    public partial class Page1 : UserControl, IPageChange
     {
+        public event Action<int> PageChange; 
+
         public Page1()
         {
             InitializeComponent();
@@ -27,7 +29,8 @@ namespace WpfExemple
 
         private void MonBoutton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.triggerPageChange(2); // appel du lancement de l'evenement
+            //MainWindow.triggerPageChange(2); // appel du lancement de l'evenement
+            PageChange?.Invoke(1);
         }
     }
 }

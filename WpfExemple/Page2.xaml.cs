@@ -15,8 +15,10 @@ using System.Windows.Shapes;
 
 namespace WpfExemple
 {
-    public partial class Page2 : UserControl
+    public partial class Page2 : UserControl, IPageChange
     {
+        public event Action<int> PageChange;
+
         public Page2()
         {
             InitializeComponent();
@@ -24,7 +26,7 @@ namespace WpfExemple
 
         private void MonBoutton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.triggerPageChange(1); // re appel vers le ancement de l'evenement en static dans le mainwindow
+           PageChange?.Invoke(2); // id de la page
         }
     }
 }
